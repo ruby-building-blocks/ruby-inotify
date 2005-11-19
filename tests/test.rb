@@ -23,6 +23,7 @@ class Test1 < Test::Unit::TestCase
 				assert_equal(ev.class, Inotify::Event)
 				assert_equal(ev.inspect, "<Inotify::Event:0xDEADBEEF name=FIXME mask=FIXME>")
 				assert_equal(ev.name, "ruby-inotify-test-4")
+				assert_equal(ev.mask, Inotify::CREATE)
 				break
 			end
 		ensure
