@@ -17,8 +17,8 @@ int event_check (int fd) {
 	int r;
 	fd_set rfds;
 
-	timeout.tv_sec = 4;
-	timeout.tv_usec = 0;
+	timeout.tv_sec = 0;
+	timeout.tv_usec = 4000;
 
 	FD_ZERO(&rfds);
 	FD_SET(fd, &rfds);
@@ -97,7 +97,10 @@ static VALUE rb_inotify_each_event(VALUE self) {
 
 	Data_Get_Struct(self, int, fd);
 	while(1) {
-		event_check(*fd);
+		r = event_check(*fd);
+		if(r == 0) {
+			continue;
+		}
 		if((r = read(*fd, buffer, 16384)) < 0) {
 			rb_sys_fail("reading event");
 		}
