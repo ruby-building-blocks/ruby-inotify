@@ -61,8 +61,9 @@ static VALUE rb_inotify_add_watch(VALUE self, VALUE filename, VALUE mask) {
 	OpenFile *fptr;
 	int *fd, wd;
 	Data_Get_Struct(self, int, fd);
-	if(wd = inotify_add_watch(*fd, RSTRING(filename)->ptr, NUM2INT(mask)) < 0) {
-		rb_sys_fail(RSTRING(filename)->ptr);
+	wd = inotify_add_watch(*fd, RSTRING(filename)->ptr, NUM2INT(mask));
+	if(wd < 0) {
+	  rb_sys_fail(RSTRING(filename)->ptr);
 	}
 	return INT2NUM(wd);
 }
@@ -134,14 +135,20 @@ static VALUE rb_inotify_close(VALUE self) {
 
 /*
  * call-seq: 
- *    inotify_event.inspect => "<Inotify::Event:0xDEAADBEEF name=foo mask=0xdeadbeef>"
+ *    inotify_event.inspect => "<Inotify::Event name=foo mask=0xdeadbeef wd=123>"
  *
  */
 
 static VALUE rb_inotify_event_inspect(VALUE self) {
 	struct inotify_event *event;
+	int len, pf;
+	char buf[1024]; 
 	Data_Get_Struct(self, struct inotify_event, event);
-	return rb_str_new2("<Inotify::Event:0xDEADBEEF name=FIXME mask=FIXME>");
+	len = event->len;
+	/* TODO: Check for string getting truncated */
+	pf = snprintf(buf, 1024, "<Inotify::Event name=%s mask=%ld wd=%d>", 
+	    event->name, event->mask, event->wd);
+	return rb_str_new2(buf);
 }
 
 /*
@@ -158,6 +165,18 @@ static VALUE rb_inotify_event_name(VALUE self) {
 	} else {
 		return Qnil;
 	}
+}
+
+/*
+ * call-seq: 
+ *    inotify_event.wd => watch descriptor
+ *
+ */
+
+static VALUE rb_inotify_event_wd(VALUE self) {
+	struct inotify_event *event;
+	Data_Get_Struct(self, struct inotify_event, event);
+	return INT2NUM(event->wd);
 }
 
 /*
@@ -203,5 +222,6 @@ void Init_inotify () {
 	rb_define_method(rb_cInotify, "close", rb_inotify_close, 0);
 	rb_define_method(rb_cInotifyEvent, "inspect", rb_inotify_event_inspect, 0);
 	rb_define_method(rb_cInotifyEvent, "name", rb_inotify_event_name, 0);
+	rb_define_method(rb_cInotifyEvent, "wd", rb_inotify_event_wd, 0);
 	rb_define_method(rb_cInotifyEvent, "mask", rb_inotify_event_mask, 0);
 }
