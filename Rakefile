@@ -50,6 +50,11 @@ Rake::RDocTask.new(:doc) do |rdoc|
 	rdoc.rdoc_files.include("lib/**/*.rb", "lib/*.rb")
 end 
 
+desc "Clean to distribution pristine"
+task :distclean do
+	system 'make distclean'
+end
+
 
 # Helper to retrieve the "revision number" of the darcs tree.
 def get_darcs_tree_version
