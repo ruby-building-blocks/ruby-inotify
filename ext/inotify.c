@@ -1,5 +1,6 @@
 #include <ruby.h>
 #include <rubyio.h>
+#include <version.h>
 
 #ifdef HAVE_LINUX_INOTIFY_H
 #include <asm/unistd.h>
@@ -76,12 +77,16 @@ static VALUE rb_inotify_new(VALUE klass) {
  */
 
 static VALUE rb_inotify_add_watch(VALUE self, VALUE filename, VALUE mask) {
+#if RUBY_VERSION_CODE >= 190
+	rb_io_t *fptr;
+#else
 	OpenFile *fptr;
+#endif
 	int *fd, wd;
 	Data_Get_Struct(self, int, fd);
-	wd = inotify_add_watch(*fd, RSTRING(filename)->ptr, NUM2INT(mask));
+	wd = inotify_add_watch(*fd, RSTRING_PTR(filename), NUM2INT(mask));
 	if(wd < 0) {
-	  rb_sys_fail(RSTRING(filename)->ptr);
+	  rb_sys_fail(RSTRING_PTR(filename));
 	}
 	return INT2NUM(wd);
 }
@@ -108,7 +113,11 @@ static VALUE rb_inotify_rm_watch(VALUE self, VALUE wdnum) {
  */
 
 static VALUE rb_inotify_each_event(VALUE self) {
+#if RUBY_VERSION_CODE >= 190
+	rb_io_t *fptr;
+#else
 	OpenFile *fptr;
+#endif
 	int *fd, r;
 	struct inotify_event *event, *pevent;
 	char buffer[16384];
