@@ -1,6 +1,8 @@
 #include <ruby.h>
 #include <rubyio.h>
+#ifdef HAVE_VERSION_H
 #include <version.h>
+#endif
 
 #ifdef HAVE_LINUX_INOTIFY_H
 #include <asm/unistd.h>
@@ -77,7 +79,7 @@ static VALUE rb_inotify_new(VALUE klass) {
  */
 
 static VALUE rb_inotify_add_watch(VALUE self, VALUE filename, VALUE mask) {
-#if RUBY_VERSION_CODE >= 190
+#ifndef HAVE_TYPE_OPENFILE
 	rb_io_t *fptr;
 #else
 	OpenFile *fptr;
@@ -113,7 +115,7 @@ static VALUE rb_inotify_rm_watch(VALUE self, VALUE wdnum) {
  */
 
 static VALUE rb_inotify_each_event(VALUE self) {
-#if RUBY_VERSION_CODE >= 190
+#ifndef HAVE_TYPE_OPENFILE
 	rb_io_t *fptr;
 #else
 	OpenFile *fptr;
