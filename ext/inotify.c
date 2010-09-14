@@ -38,13 +38,10 @@ int event_check (int fd) {
 	int r;
 	fd_set rfds;
 
-	timeout.tv_sec = 0;
-	timeout.tv_usec = 4000;
-
 	FD_ZERO(&rfds);
 	FD_SET(fd, &rfds);
 
-	r = rb_thread_select (fd+1, &rfds, NULL, NULL, &timeout);
+	r = rb_thread_select (fd+1, &rfds, NULL, NULL, NULL);
 	return r;
 }
 
