@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
   s.email               =  "aredridel@nbtsc.org"
   s.summary             =  "Interface to Linux's Inotify (C version)"
   s.files               =  GemFiles.to_a
-  s.extensions         <<  'extconf.rb'
+  s.extensions         <<  'ext/extconf.rb'
   s.require_path        =  'lib'
   s.test_files		=  Dir.glob('tests/test_*.rb')
   s.extra_rdoc_files	=  ["MANIFEST"]
