@@ -95,7 +95,7 @@ static VALUE rb_inotify_add_watch(VALUE self, VALUE filename, VALUE mask) {
 
 /*
  * call-seq: 
- *    inotify.rm_watch(filename, wd) => true or raises exception.
+ *    inotify.rm_watch(wd) => true or raises exception.
  *
  */
 
