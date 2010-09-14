@@ -220,6 +220,18 @@ static VALUE rb_inotify_event_mask(VALUE self) {
 	return LONG2NUM(event->mask);
 }
 
+/*
+ * call-seq: 
+ *    inotify_event.cookie => 0xcafebabe
+ *
+ */
+
+static VALUE rb_inotify_event_cookie(VALUE self) {
+	struct inotify_event *event;
+	Data_Get_Struct(self, struct inotify_event, event);
+	return LONG2NUM(event->cookie);
+}
+
 void Init_inotify () {
 	rb_cInotify = rb_define_class("Inotify", rb_cObject);
 	rb_cInotifyEvent = rb_define_class_under(rb_cInotify, "Event", rb_cObject);
@@ -249,6 +261,7 @@ void Init_inotify () {
 	rb_define_method(rb_cInotify, "rm_watch", rb_inotify_rm_watch, 1);
 	rb_define_method(rb_cInotify, "each_event", rb_inotify_each_event, 0);
 	rb_define_method(rb_cInotify, "close", rb_inotify_close, 0);
+	rb_define_method(rb_cInotifyEvent, "cookie", rb_inotify_event_cookie, 0);
 	rb_define_method(rb_cInotifyEvent, "inspect", rb_inotify_event_inspect, 0);
 	rb_define_method(rb_cInotifyEvent, "name", rb_inotify_event_name, 0);
 	rb_define_method(rb_cInotifyEvent, "wd", rb_inotify_event_wd, 0);
