@@ -176,7 +176,7 @@ static VALUE rb_inotify_event_inspect(VALUE self) {
 	len = event->len;
 	/* TODO: Check for string getting truncated */
 	pf = snprintf(buf, 1024, "<Inotify::Event name=%s mask=%ld wd=%d>", 
-	    event->name, event->mask, event->wd);
+	    event->len ? event->name : Qnil, event->mask, event->wd);
 	return rb_str_new2(buf);
 }
 
