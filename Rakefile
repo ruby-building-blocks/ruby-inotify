@@ -13,7 +13,7 @@ task :predist => [:chmod, :changelog, :doc]
 
 desc "Build"
 task :build do
-	ruby "extconf.rb"
+	ruby "ext/extconf.rb"
 	system "make"
 end
 
