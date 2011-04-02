@@ -4,6 +4,7 @@ Project = 'project-template'
 
 require 'rake/rdoctask'
 require 'rake/testtask'
+require 'ftools'
 
 desc "Build and test"
 task :default => [:build, :test]
@@ -13,17 +14,18 @@ task :predist => [:chmod, :changelog, :doc]
 
 desc "Build"
 task :build do
-	ruby "ext/extconf.rb"
+	ruby "ext/inotify/extconf.rb"
 	system "make"
+	File.copy("inotify_native.so", "lib/inotify/inotify_native.so")
 end
 
 task :test => :build
 
-desc "Run all the tests"
+desc "Run each test"
 Rake::TestTask.new do |t|
-  t.libs << "tests"
-	t.libs << "ext"
-  t.test_files = FileList['tests/test_*.rb']
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList['test/test_*.rb']
   t.verbose = true
 end
 
