@@ -3,7 +3,7 @@
 require 'inotify'
 require 'find'
 
-i = Inotify.new
+i = Inotify::Inotify.new
 
 t = Thread.new do
 	i.each_event do |ev|
