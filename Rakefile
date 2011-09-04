@@ -22,7 +22,7 @@ task :test => :build
 desc "Run all the tests"
 Rake::TestTask.new do |t|
   t.libs << "tests"
-t.libs << "ext"
+  t.libs << "lib"
   t.test_files = FileList['tests/test_*.rb']
   t.verbose = true
 end
@@ -81,4 +81,3 @@ def get_darcs_tree_version
 
   "-" + tag + "." + count.to_s
 end
-
