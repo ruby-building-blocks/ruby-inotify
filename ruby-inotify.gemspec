@@ -1,22 +1,22 @@
-require 'rake'
-GemFiles = FileList['examples/*', 'ext/*', 'test/*', 'lib/*', 'Rakefile', 'MANIFEST']
-GemFiles.exclude('ext/inotify/*.o')
-GemFiles.exclude('**/Makefile')
-GemFiles.exclude('**/semantic.cache')
-GemFiles.exclude('ext/inotify/*.so')
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "ruby-inotify/version"
 
-spec = Gem::Specification.new do |s|
-  s.platform            =  Gem::Platform::CURRENT
-  s.name                =  "ruby-inotify"
-  s.description		=  "An interface to Linux's inotify, for watching updates to directories."
-  s.version             =  "0.1.0"
-  s.homepage            =  "http://dinhe.net/~aredridel/projects/ruby/ruby-inotify"
-  s.author              =  "Aria Stewart"
-  s.email               =  "aredridel@nbtsc.org"
-  s.summary             =  "Interface to Linux's Inotify (C version)"
-  s.files               =  GemFiles.to_a
-  s.extensions         <<  'ext/inotify/extconf.rb'
-  s.require_path        =  'lib'
-  s.test_files		=  Dir.glob('test/test_*.rb')
-  s.extra_rdoc_files	=  ["MANIFEST"]
+Gem::Specification.new do |s|
+  s.name        = "ruby-inotify"
+  s.version     = Inotify::VERSION
+  s.authors     = ["Aria Stewart", "Jon Raiford"]
+  s.email       = ["aredridel@nbtsc.org", "jon@raiford.org"]
+  s.homepage    = "http://dinhe.net/~aredridel/projects/ruby/ruby-inotify"
+  s.summary     = %q{Interface to Linux's Inotify (Ruby FFI version)}
+  s.description = %q{An interface to Linux's inotify, for watching updates to directories.}
+
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths = ["lib"]
+
+  # specify any dependencies here
+  # s.add_development_dependency "rspec"
+  s.add_runtime_dependency "ffi"
 end
