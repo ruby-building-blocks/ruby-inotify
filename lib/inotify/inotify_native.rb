@@ -7,27 +7,36 @@ require 'ffi'
     ffi_lib FFI::Platform::LIBC
     
     MAX_NAME_SIZE = 4096
-    ACCESS = 0x00000001
-    MODIFY = 0x00000002
-    ATTRIB = 0x00000004
-    CLOSE_WRITE = 0x00000008
+    
+    ACCESS        = 0x00000001
+    MODIFY        = 0x00000002
+    ATTRIB        = 0x00000004
+    CLOSE_WRITE   = 0x00000008
     CLOSE_NOWRITE = 0x00000010
-    OPEN = 0x00000020
-    MOVED_FROM = 0x00000040
-    MOVED_TO = 0x00000080
-    CREATE = 0x00000100
-    DELETE = 0x00000200
-    DELETE_SELF = 0x00000400
-    MOVE_SELF = 0x00000800
+    OPEN          = 0x00000020
+    MOVED_FROM    = 0x00000040
+    MOVED_TO      = 0x00000080
+    CREATE        = 0x00000100
+    DELETE        = 0x00000200
+    DELETE_SELF   = 0x00000400
+    MOVE_SELF     = 0x00000800
     # Events sent by the kernel.
-    UNMOUNT = 0x00002000
-    Q_OVERFLOW = 0x00004000
-    IGNORED = 0x00008000
-    ONLYDIR = 0x01000000
-    DONT_FOLLOW = 0x02000000
-    MASK_ADD = 0x20000000
-    ISDIR = 0x40000000
-    ONESHOT = 0x80000000
+    UNMOUNT       = 0x00002000
+    Q_OVERFLOW    = 0x00004000
+    IGNORED       = 0x00008000
+    ONLYDIR       = 0x01000000
+    DONT_FOLLOW   = 0x02000000
+    MASK_ADD      = 0x20000000
+    # special flags
+    ISDIR         = 0x40000000
+    ONESHOT       = 0x80000000
+    # helper events
+    CLOSE      = (CLOSE_WRITE | CLOSE_NOWRITE)
+    MOVE       = (MOVED_FROM | MOVED_TO)
+    #All of the events
+    ALL_EVENTS = (ACCESS | MODIFY | ATTRIB | CLOSE_WRITE | \
+       CLOSE_NOWRITE | OPEN | MOVED_FROM | \
+       MOVED_TO | CREATE | DELETE | DELETE_SELF | MOVE_SELF|)
 
     attach_function :inotify_init, [], :int
     attach_function :inotify_add_watch, [:int, :string, :uint32], :int
