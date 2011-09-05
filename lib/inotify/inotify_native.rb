@@ -36,7 +36,7 @@ require 'ffi'
     #All of the events
     ALL_EVENTS = (ACCESS | MODIFY | ATTRIB | CLOSE_WRITE | \
        CLOSE_NOWRITE | OPEN | MOVED_FROM | \
-       MOVED_TO | CREATE | DELETE | DELETE_SELF | MOVE_SELF|)
+       MOVED_TO | CREATE | DELETE | DELETE_SELF | MOVE_SELF)
 
     attach_function :inotify_init, [], :int
     attach_function :inotify_add_watch, [:int, :string, :uint32], :int
