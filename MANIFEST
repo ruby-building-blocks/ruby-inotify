@@ -1,7 +1,0 @@
-ext/inotify.c
-ext/inotify.h
-ext/inotify-syscalls.h
-tests/test.rb
-extconf.rb
-MANIFEST
-doc
