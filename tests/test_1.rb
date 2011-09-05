@@ -3,10 +3,10 @@ require 'inotify'
 
 class Test1 < Test::Unit::TestCase
 	def setup
-		@inotify = Inotify::Inotify.new
+		@inotify = Inotify.new
 	end
 	def test1
-		assert_equal(Inotify::Inotify, @inotify.class)
+		assert_equal(Inotify, @inotify.class)
 	end
 	def test2
 		assert(@inotify.add_watch("/tmp", Inotify::CREATE))
