@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Inotify</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Inotify</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/inotify/inotify_native_rb.html">
+                lib/inotify/inotify_native.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="Inotify.html">Inotify</a> class is a simple wrapper around the
+inotify functionality provided by the OS
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000001">add_watch</a>&nbsp;&nbsp;
+      <a href="#M000003">close</a>&nbsp;&nbsp;
+      <a href="#M000004">each_event</a>&nbsp;&nbsp;
+      <a href="#M000002">rm_watch</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Inotify/Event.html" class="link">Inotify::Event</a><br />
+
+    </div>
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ACCESS</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000001</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File was accessed (read) (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MODIFY</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000002</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File was modified (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ATTRIB</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000004</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Metadata changed, e.g., permissions, timestamps, extended attributes, link
+count (since Linux 2.6.25), UID, GID, etc. (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CLOSE_WRITE</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000008</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File opened for writing was closed (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CLOSE_NOWRITE</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000010</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File not opened for writing was closed (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">OPEN</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000020</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File was opened (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MOVED_FROM</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000040</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File moved out of watched directory (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MOVED_TO</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000080</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File moved into watched directory (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CREATE</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000100</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File/directory created in watched directory (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DELETE</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000200</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File/directory deleted from watched directory (*)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DELETE_SELF</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000400</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Watched file/directory was itself deleted
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MOVE_SELF</td>
+          <td>=</td>
+          <td class="context-item-value">0x00000800</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Watched file/directory was itself moved
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">UNMOUNT</td>
+          <td>=</td>
+          <td class="context-item-value">0x00002000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+File system containing watched object was unmounted
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">Q_OVERFLOW</td>
+          <td>=</td>
+          <td class="context-item-value">0x00004000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+<a href="Inotify/Event.html">Event</a> queue overflowed (wd is -1 for this
+event)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">IGNORED</td>
+          <td>=</td>
+          <td class="context-item-value">0x00008000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Watch was removed explicitly (inotify_rm_watch(2)) or automatically (file
+was deleted, or file system was unmounted)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ONLYDIR</td>
+          <td>=</td>
+          <td class="context-item-value">0x01000000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+(since Linux 2.6.15) Only watch pathname if it is a directory
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DONT_FOLLOW</td>
+          <td>=</td>
+          <td class="context-item-value">0x02000000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+(since Linux 2.6.15) Don&#8216;t dereference pathname if it is a symbolic
+link
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">EXCL_UNLINK</td>
+          <td>=</td>
+          <td class="context-item-value">0x04000000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+(since Linux 2.6.36) By default, when watching events on the children of a
+directory, events are generated for children even after they have been
+unlinked from the directory. This can result in large numbers of
+uninteresting events for some applications (e.g., if watching /tmp, in
+which many applications create temporary files whose names are immediately
+unlinked). Specifying IN_EXCL_UNLINK changes the default behavior, so that
+events are not generated for children after they have been unlinked from
+the watched directory.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MASK_ADD</td>
+          <td>=</td>
+          <td class="context-item-value">0x20000000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Add (OR) events to watch mask for this pathname if it already exists
+(instead of replacing mask)
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ISDIR</td>
+          <td>=</td>
+          <td class="context-item-value">0x40000000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Subject of this event is a directory
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ONESHOT</td>
+          <td>=</td>
+          <td class="context-item-value">0x80000000</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Monitor pathname for one event, then remove from watch list
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CLOSE</td>
+          <td>=</td>
+          <td class="context-item-value">(CLOSE_WRITE | CLOSE_NOWRITE)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Both of the <a href="Inotify.html#M000003">close</a> events
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MOVE</td>
+          <td>=</td>
+          <td class="context-item-value">(MOVED_FROM | MOVED_TO)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Both of the move events
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ALL_EVENTS</td>
+          <td>=</td>
+          <td class="context-item-value">(ACCESS | MODIFY | ATTRIB | CLOSE_WRITE | \        CLOSE_NOWRITE | OPEN | MOVED_FROM | \        MOVED_TO | CREATE | DELETE | DELETE_SELF | MOVE_SELF)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+All of the events
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="Inotify.src/M000001.html" target="Code" class="method-signature"
+            onclick="popupCode('Inotify.src/M000001.html');return false;">
+          <span class="method-name">add_watch</span><span class="method-args">(pathname, mask)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="Inotify.html#M000001">add_watch</a>() adds a new watch, or
+modifies an existing watch, for the file whose location is specified in
+pathname; the caller must have read permission for this file. The events to
+be monitored for pathname are specified in the mask bit-mask argument. On
+success, inotify_add_watch() returns a nonnegative watch descriptor (wd),
+or -1 if an error occurred.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="Inotify.src/M000003.html" target="Code" class="method-signature"
+            onclick="popupCode('Inotify.src/M000003.html');return false;">
+          <span class="method-name">close</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="Inotify.html#M000003">close</a>() stops the processing of events
+and closes the inotify instance in the OS
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="Inotify.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('Inotify.src/M000004.html');return false;">
+          <span class="method-name">each_event</span><span class="method-args">() {|event| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="Inotify.html#M000004">each_event</a>() provides an easy way to
+loop over all events as they occur
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="Inotify.src/M000002.html" target="Code" class="method-signature"
+            onclick="popupCode('Inotify.src/M000002.html');return false;">
+          <span class="method-name">rm_watch</span><span class="method-args">(wd)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="Inotify.html#M000002">rm_watch</a>() removes the watch associated
+with the watch descriptor wd. On success, returns zero, or -1 if an error
+occurred.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
