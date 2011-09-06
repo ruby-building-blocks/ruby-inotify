@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://dinhe.net/~aredridel/projects/ruby/ruby-inotify"
   s.summary     = %q{Interface to Linux's Inotify (Ruby FFI version)}
   s.description = %q{An interface to Linux's inotify, for watching updates to directories.}
+  s.has_rdoc    = true
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

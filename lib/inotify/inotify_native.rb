@@ -4,7 +4,7 @@ require 'ffi'
   # The Inotify class is a simple wrapper around the inotify functionality provided by the OS
   class Inotify
 
-    VERSION = "1.0.1" # :nodoc:
+    VERSION = "1.0.2" # :nodoc:
 
     extend FFI::Library
     ffi_lib FFI::Platform::LIBC
