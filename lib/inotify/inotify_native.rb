@@ -8,10 +8,10 @@ require 'ffi'
 
     extend FFI::Library
     ffi_lib FFI::Platform::LIBC
-    
+
     # The maximum supported size of the name argument in the inotify event structure
     MAX_NAME_SIZE = 4096 # :nodoc:
-    
+
     # File was accessed (read) (*)
     ACCESS        = 0x00000001
     # File was modified (*)
@@ -83,13 +83,13 @@ require 'ffi'
     attach_function :inotify_rm_watch, [:int, :uint32], :int
     attach_function :read, [:int, :pointer, :size_t], :ssize_t
     attach_function :inotify_close, :close, [:int], :int
-    
+
     # When creating a new instance of this class, an inotify instance is created in the OS.
     def initialize # :nodoc:
       @fd = self.inotify_init
       @io = FFI::IO.for_fd(@fd)
     end
-    
+
     # add_watch() adds a new watch, or modifies an existing watch, for the
     # file whose location is specified in pathname; the caller must have read
     # permission for this file. The events to be
@@ -99,19 +99,19 @@ require 'ffi'
     def add_watch(pathname, mask)
       self.inotify_add_watch(@fd, pathname, mask)
     end
-    
+
     # rm_watch() removes the watch associated with the watch descriptor wd.
     # On success, returns zero, or -1 if an error occurred.
     def rm_watch(wd)
       self.inotify_rm_watch(@fd, wd)
     end
-    
+
     # close() stops the processing of events and closes the
     # inotify instance in the OS
     def close
       self.inotify_close(@fd)
     end
-    
+
     # each_event() provides an easy way to loop over all events as they occur
     def each_event
       loop do
@@ -120,7 +120,7 @@ require 'ffi'
         yield event
       end
     end
-    
+
     # read_event() attempts to read the next inotify event from the OS
     def read_event # :nodoc:
       buf = FFI::Buffer.alloc_out(EventStruct.size + MAX_NAME_SIZE, 1, false)
@@ -128,7 +128,7 @@ require 'ffi'
       n = self.read(@fd, buf, buf.total)
       Event.new(ev, buf)
     end
-      
+
     # Internal class needed for FFI support
     class EventStruct < FFI::Struct # :nodoc:
       layout(
@@ -140,7 +140,7 @@ require 'ffi'
 
     # The Inotify::Event class is used by Inotify when calling Inotify each_event method
     class Event
-      
+
       def initialize(struct, buf) # :nodoc:
         @struct, @buf = struct, buf
       end
@@ -149,22 +149,22 @@ require 'ffi'
       def wd
         @struct[:wd]
       end
-      
+
       # Returns the mask describing the event
       def mask
         @struct[:mask]
       end
-      
+
       # Returns the cookie associated with the event.  If multiple events are triggered from the
       # same action (such as renaming a file or directory), this value will be the same.
       def cookie
         @struct[:cookie]
       end
-      
+
       def len # :nodoc:
         @struct[:len]
       end
-      
+
       # Returns the file name associated with the event, if applicable
       def name
         @struct[:len] > 0 ? @buf.get_string(16, @struct[:len]) : ''
