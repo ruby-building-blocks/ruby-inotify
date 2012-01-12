@@ -88,22 +88,30 @@ require 'ffi'
     def initialize # :nodoc:
       @fd = self.inotify_init
       @io = FFI::IO.for_fd(@fd)
+      @watches = Array.new
     end
 
     # add_watch() adds a new watch, or modifies an existing watch, for the
     # file whose location is specified in pathname; the caller must have read
-    # permission for this file. The events to be
-    # monitored for pathname are specified in the mask bit-mask argument.
-    # On success, inotify_add_watch() returns a nonnegative watch descriptor (wd), or
-    # -1 if an error occurred.
+    # permission for this file. The events to be monitored for pathname are
+    # specified in the mask bit-mask argument. On success, inotify_add_watch()
+    # returns a nonnegative watch descriptor (wd), or -1 if an error occurred.
     def add_watch(pathname, mask)
-      self.inotify_add_watch(@fd, pathname, mask)
+      wd = self.inotify_add_watch(@fd, pathname, mask)
+      if wd > 0
+          @watches[wd] = pathname;
+      end
+      return wd
     end
 
-    # rm_watch() removes the watch associated with the watch descriptor wd.
-    # On success, returns zero, or -1 if an error occurred.
-    def rm_watch(wd)
-      self.inotify_rm_watch(@fd, wd)
+    # rm_watch() removes the watch associated with the watch descriptor or
+    # pathname wd. On success, returns zero, or -1 if an error occurred.
+    def rm_watch(wd_or_pathname)
+      unless wd_or_pathname.kind_of? Integer
+          wd_or_pathname = @watches.index(wd_or_pathname)
+      end
+      return -1 if wd_or_pathname.nil?
+      self.inotify_rm_watch(@fd, wd_or_pathname)
     end
 
     # close() stops the processing of events and closes the
@@ -126,7 +134,7 @@ require 'ffi'
       buf = FFI::Buffer.alloc_out(EventStruct.size + MAX_NAME_SIZE, 1, false)
       ev = EventStruct.new(buf)
       n = self.read(@fd, buf, buf.total)
-      Event.new(ev, buf)
+      Event.new(ev, buf, @watches[ev[:wd]])
     end
 
     # Internal class needed for FFI support
@@ -141,8 +149,13 @@ require 'ffi'
     # The Inotify::Event class is used by Inotify when calling Inotify each_event method
     class Event
 
-      def initialize(struct, buf) # :nodoc:
-        @struct, @buf = struct, buf
+      def initialize(struct, buf, pathname) # :nodoc:
+        @struct, @buf, @pathname = struct, buf, pathname;
+      end
+
+      # Returns the pathname associated with the event
+      def pathname
+        @pathname
       end
 
       # Returns the watch descriptor (wd) associated with the event
@@ -171,11 +184,12 @@ require 'ffi'
       end
 
       def inspect # :nodoc:
-        "<%s name=%s mask=%s wd=%s>" % [
+        "<%s name=%s mask=%s wd=%s pathname=%s>" % [
           self.class,
           self.name.inspect,
           self.mask.inspect,
           self.wd.inspect,
+          self.pathname.inspect
         ]
       end
     end
