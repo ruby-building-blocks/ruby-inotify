@@ -173,9 +173,9 @@ require 'ffi'
       def inspect # :nodoc:
         "<%s name=%s mask=%s wd=%s>" % [
           self.class,
-          self.name,
-          self.mask,
-          self.wd
+          self.name.inspect,
+          self.mask.inspect,
+          self.wd.inspect,
         ]
       end
     end
