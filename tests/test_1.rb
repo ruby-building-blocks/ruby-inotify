@@ -21,10 +21,10 @@ class Test1 < Test::Unit::TestCase
 		begin 
 			File.open(File.join("/tmp", "ruby-inotify-test-4"), 'w')
 			@inotify.each_event do |ev|
-				assert_equal(ev.class, Inotify::Event)
-				assert_equal(ev.inspect, "<Inotify::Event name=ruby-inotify-test-4 mask=256 wd=1>")
-				assert_equal(ev.name, "ruby-inotify-test-4")
-				assert_equal(ev.mask, Inotify::CREATE)
+				assert_equal(Inotify::Event, ev.class)
+				assert_equal("<Inotify::Event name=ruby-inotify-test-4 mask=256 wd=1>", ev.inspect)
+				assert_equal("ruby-inotify-test-4", ev.name)
+				assert_equal(Inotify::CREATE, ev.mask)
 				break
 			end
 		ensure
